@@ -49,6 +49,10 @@ public class WhatsappRepository {
             group.setName("Group" + " " + users.size());
         }
         groupMap.put(group.getName(),group);
+        List<User> userList=new ArrayList<>();
+        userGroupMap.put(group, userList);
+        List<Message> messageList=new ArrayList<>();
+        groupMessageMap.put(group,messageList);
         return group;
     }
 
@@ -82,7 +86,7 @@ public class WhatsappRepository {
         messages.add(message);
 
         groupMessageMap.put(group,messages);
-        return messages.size();
+        return messages.size()-1;
     }
 
     public String changeAdmin(User approver, User user, Group group) throws Exception{
