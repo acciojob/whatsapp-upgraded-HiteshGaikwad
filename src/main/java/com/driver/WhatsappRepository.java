@@ -21,6 +21,9 @@ public class WhatsappRepository {
 
     HashMap<User,List<Message>> userMessagesList = new HashMap<>();
 
+    HashMap<Integer,Message> messages=new HashMap<>();
+
+
 
     public void createUser(String name, String mobile)throws Exception{
 
@@ -129,8 +132,6 @@ public class WhatsappRepository {
     }
 
     public int removeUser(User user)throws Exception {
-
-
         boolean check = false;
         Group group1 = null;
         for(Group group:groupMap.keySet()){
@@ -167,7 +168,31 @@ public class WhatsappRepository {
         }
         groupMap.get(group1).remove(user);
         userMessagesList.remove(user);
+
         return groupMap.get(group1).size()+messagesInGroup.get(group1).size()+messagesList.size();
 
     }
+
+    public String findMessage(Date start, Date end, int K) throws Exception{
+    boolean latest = false;
+    int k=0;
+    String message = null;
+        for(int i=messages.size()-1; i>=0; i--){
+        Message messages1 = messages.get(i);
+        if(messages1.getTimestamp().compareTo(start)>0 && messages1.getTimestamp().compareTo(end)<0){
+            k++;
+            if(k==1){
+                latest=true;
+            }
+            if(latest) {
+                message = messages1.getContent();
+                latest = false;
+            }
+        }
+    }
+        if(k<K){
+        throw new Exception("K is greater than the number of messages");
+    }
+        return message;
+}
 }
