@@ -8,7 +8,6 @@ public class Message {
     private int id;
     private String content;
 
-    @Timestamp
     private Date timestamp;
 
     public Message(int id, String content) {

@@ -15,22 +15,22 @@ public class WhatsappRepository {
     private HashMap<Integer,Message> messageHashMap;
     private HashMap<Group,List<Message>> groupMessageMap;
 
-    public WhatsappRepository(HashMap<String, User> userMap, HashMap<String, Group> groupMap, HashMap<Group, List<User>> userGroupMap, HashMap<Integer, Message> messageHashMap, HashMap<Group, List<Message>> groupMessageMap) {
-        this.userMap = userMap;
-        this.groupMap = groupMap;
-        this.userGroupMap = userGroupMap;
-        this.messageHashMap = messageHashMap;
-        this.groupMessageMap = groupMessageMap;
+    public WhatsappRepository() {
+        this.userMap = new HashMap<String, User>();
+        this.groupMap = new HashMap<String, Group>();
+        this.userGroupMap = new HashMap<Group, List<User>>();
+        this.messageHashMap = new HashMap<Integer, Message>();
+        this.groupMessageMap = new HashMap<Group, List<Message>>();
     }
 
-    public WhatsappRepository() {
-    }
+//    public WhatsappRepository() {
+//    }
 
     public String createUser(String name, String mobile) throws Exception{
         User user=new User();
         user.setName(name);
         user.setMobile(mobile);
-        if(userMap.containsKey(mobile)){
+        if(userMap!=null &&userMap.containsKey(mobile)){
             throw new Exception("User already exists");
         }
         userMap.put(mobile,user);
@@ -83,6 +83,9 @@ public class WhatsappRepository {
             throw new Exception("You are not allowed to send message");
         }
         List<Message> messages=groupMessageMap.get(group);
+        if(messages==null){
+            messages=new ArrayList<>();
+        }
         messages.add(message);
 
         groupMessageMap.put(group,messages);
