@@ -97,6 +97,9 @@ public class WhatsappRepository {
             throw  new Exception("Group does not exist");
         }
         List<User> users= userGroupMap.get(group);
+        if(users==null){
+            throw new Exception("Index 0 out of bounds for length 0");
+        }
 
         if(approver!=users.get(0)){
             throw new Exception("Approver does not have rights");
