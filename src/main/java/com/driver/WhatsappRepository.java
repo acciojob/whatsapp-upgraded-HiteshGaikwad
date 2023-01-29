@@ -94,14 +94,14 @@ public class WhatsappRepository {
 
     public String changeAdmin(User approver, User user, Group group) throws Exception{
         if(!groupMap.containsKey(group.getName())){
-            throw  new Exception("Group does not exist");
+            throw new Exception("Group does not exist");
         }
         List<User> users= userGroupMap.get(group);
-        if(users==null){
-            throw new Exception("Index 0 out of bounds for length 0");
-        }
+//        if(users==null){
+//            throw new Exception("Index 0 out of bounds for length 0");
+//        }
 
-        if(approver!=users.get(0)){
+        if(users!=null && approver!=users.get(0)){
             throw new Exception("Approver does not have rights");
         }
 
@@ -115,7 +115,7 @@ public class WhatsappRepository {
             throw new Exception("User is not a participant");
         }
         User user1= users.get(0);
-        users.add(user1);
+        users.add(users.size()-1,user1);
         users.remove(0);
         return "SUCCESS";
     }
